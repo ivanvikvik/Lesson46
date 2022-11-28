@@ -1,5 +1,6 @@
 package by.itstep.vikvik.controller;
 
+import by.itstep.vikvik.model.dao.GroupDAO;
 import by.itstep.vikvik.model.dao.StudentDAO;
 import by.itstep.vikvik.model.entity.Group;
 import by.itstep.vikvik.model.entity.Student;
@@ -11,10 +12,17 @@ import java.util.ResourceBundle;
 
 public class Main {
     public static void main(String[] args) {
-        StudentDAO studentDAO = new StudentDAO();
+
+
+
+        GroupDAO groupDAO = new GroupDAO();
+        Group sgroup = new Group("Super Java");
+        groupDAO.addGroup(sgroup);
+
+//        StudentDAO studentDAO = new StudentDAO();
 //        List<Student> list = studentDAO.getAllStudents();
-        Student student = studentDAO.getStudent(1);
-        System.out.println(student);
+//        Student student = studentDAO.getStudent(1);
+//        System.out.println(student);
 
 //        Group group = new Group(list);
 //        System.out.println(group);

@@ -15,12 +15,18 @@ public class StudentDAO extends AbstractDAO {
     public static final String SELECT_ALL_STUDENTS = "SELECT name, age, mark FROM students";
     public static final String SELECT_STUDENT = "SELECT * FROM students WHERE id_student = ?";
 
+    private Connection connection;
+
+    public StudentDAO() {
+        connection = getConnection();
+    }
+
     public List<Student> getAllStudents() {
         List<Student> list = new ArrayList<>();
-        Connection connection = getConnection();
+        Statement statement = null;
 
         try {
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(SELECT_ALL_STUDENTS);
 
             while (rs.next()) {
@@ -34,18 +40,24 @@ public class StudentDAO extends AbstractDAO {
                 SQLException exception) {
             System.out.println(exception);
         } finally {
-            releaseConnection(connection);
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException exception) {
+                    System.out.println(exception);
+                }
+            }
         }
 
         return list;
     }
 
     public Student getStudent(int id) {
-        Connection connection = getConnection();
         Student student = null;
+        PreparedStatement statement = null;
 
         try {
-            PreparedStatement statement = connection.prepareStatement(SELECT_STUDENT);
+            statement = connection.prepareStatement(SELECT_STUDENT);
 
             statement.setInt(1, id);
 
@@ -60,9 +72,19 @@ public class StudentDAO extends AbstractDAO {
         } catch (SQLException exception) {
             System.out.println(exception);
         } finally {
-          releaseConnection(connection);
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException exception) {
+                    System.out.println(exception);
+                }
+            }
         }
 
         return student;
+    }
+
+    protected void finalize()  {
+        releaseConnection(connection);
     }
 }
