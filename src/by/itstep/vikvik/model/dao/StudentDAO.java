@@ -17,8 +17,8 @@ public class StudentDAO extends AbstractDAO {
 
     private Connection connection;
 
-    public StudentDAO() {
-        connection = getConnection();
+    public StudentDAO(Connection connection) {
+        this.connection = connection;
     }
 
     public List<Student> getAllStudents() {
@@ -82,9 +82,5 @@ public class StudentDAO extends AbstractDAO {
         }
 
         return student;
-    }
-
-    protected void finalize()  {
-        releaseConnection(connection);
     }
 }

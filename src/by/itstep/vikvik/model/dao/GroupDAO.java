@@ -17,8 +17,8 @@ public class GroupDAO extends AbstractDAO {
 
     private Connection connection;
 
-    public GroupDAO() {
-        connection = getConnection();
+    public GroupDAO(Connection connection) {
+        this.connection = connection;
     }
 
     public int addGroup(Group group) {
@@ -72,9 +72,5 @@ public class GroupDAO extends AbstractDAO {
         }
 
         return result;
-    }
-
-    protected void finalize()  {
-        releaseConnection(connection);
     }
 }
